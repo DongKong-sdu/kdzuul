@@ -1,0 +1,68 @@
+server:
+  port: 9528
+
+spring:
+  application:
+    name: springcloud-zuul111
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db01?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC
+    username: root
+    password: 123456
+
+  cloud:
+    nacos:
+      server-addr: 124.222.60.243:8848
+      discovery:
+        cluster-name: SH
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    timeout: 1000ms
+#    database: 0
+#    lettuce:
+#      pool:
+#        max-active: 8
+#        max-wait: -1ms
+#        max-idle: 8
+#        min-idle: 0
+
+zuul:
+  routes:
+    product-service:
+      path: /edge-node1/**
+      url: http://101.201.143.127:8000/
+    order-service:
+      path: /edge-node2/**
+      url: http://124.222.224.173:8000/
+#  add-host-header: true
+#  sensitive-headers: Access-Control-Allow-Origin,Access-Control-Allow-Methods
+#  strip-prefix: true
+#  ratelimit:
+#    enabled: true
+#    repository: REDIS
+#    policy-list:
+#      order-service:
+#          limit: 5
+#          refresh-interval: 60
+#          type:
+#            - ORIGIN
+#            - URL
+#            - USER
+#  ratelimit:
+#    enabled: true
+#    repository: redis
+#    default-policy-list:
+#      limit: 5
+#      refresh-interval: 60
+#      type:
+#        - ORIGIN
+#        - URL
+#        - USER
+
+
+
+
+
+
+

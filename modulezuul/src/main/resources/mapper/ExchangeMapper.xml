@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.springcloud.mapper.ExchangeMapper">
+    <update id="updateGateway">
+          update gateway_api_define set
+            enabled = 0
+          where service_id = #{servicename}
+    </update>
+    <update id="updateCloudGateway">
+          update gateway_api_define set
+            enabled = 1
+          where service_id = #{cloudservicename}
+    </update>
+    <select id="getList" resultType="com.kd.springcloud.entity.Gateway">
+        select *
+        from gateway_api_define
+    </select>
+    <insert id="save" parameterType="com.kd.springcloud.entity.Gateway">
+        INSERT INTO gateway_api_define
+        (id, path, service_id, retryable, strip_prefix, url, enabled) VALUES ('core-service', '/order-service/**', 'order-service',0,1, 'http://localhost:7073/', 1);
+    </insert>
+
+</mapper>
