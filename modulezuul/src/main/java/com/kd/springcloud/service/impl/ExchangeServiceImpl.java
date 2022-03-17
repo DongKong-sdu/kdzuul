@@ -24,18 +24,15 @@ public class ExchangeServiceImpl  {
         int resCloud=exchangeMapper.updateCloudGateway(cloudservicename);
         if (res > 0&&resCloud>0) {
             return ResultTool.success();
-        } else {
-            return ResultTool.fail();
         }
+        return ResultTool.fail();
     }
     public JsonResult getList(){
         List<Gateway> data= exchangeMapper.getList();
-        if(data!=null){
-            return ResultTool.success(data);
-        }
-        else {
+        if(data==null){
             return ResultTool.fail();
         }
+        return ResultTool.success(data);
     }
 
     public JsonResult<Gateway> createGateway(GatewayParam gatewayParam) {

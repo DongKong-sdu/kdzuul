@@ -1,27 +1,20 @@
 server:
   port: 9528
-  servlet:
-    context-path: /zuul
 
 spring:
   application:
-#    name: springcloud-zuul111
-    name: zuul
+    name: springcloud-zuul111
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/db01?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC&zeroDateTimeBehavior=convertToNull
-#    url: jdbc:mysql://124.222.224.173:3306/db01?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC&zeroDateTimeBehavior=convertToNull
-    url: jdbc:mysql://124.222.66.170:3306/compute?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC&zeroDateTimeBehavior=convertToNull
-#    url: jdbc:mysql://localhost:3306/compute?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://localhost:3307/zuuldb?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC
     username: root
-    password: cong0917
+    password: 123456
 
   cloud:
     nacos:
       server-addr: 124.222.60.243:8848
       discovery:
         cluster-name: SH
-        ip: 139.224.190.128
 #  redis:
 #    host: 127.0.0.1
 #    port: 6379

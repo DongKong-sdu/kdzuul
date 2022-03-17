@@ -15,9 +15,4 @@
         select *
         from gateway_api_define
     </select>
-    <insert id="save" parameterType="com.kd.springcloud.entity.Gateway">
-        INSERT INTO gateway_api_define
-        (id, path, service_id, retryable, strip_prefix, url, enabled) VALUES ('core-service', '/order-service/**', 'order-service',0,1, 'http://localhost:7073/', 1);
-    </insert>
-
 </mapper>

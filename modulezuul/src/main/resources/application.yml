@@ -6,7 +6,7 @@ spring:
     name: springcloud-zuul111
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db01?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC
+    url: jdbc:mysql://localhost:3307/zuuldb?useUnicode=true&characterEncoding=UTF-8&serverTimeZone=UTC
     username: root
     password: 123456
 
