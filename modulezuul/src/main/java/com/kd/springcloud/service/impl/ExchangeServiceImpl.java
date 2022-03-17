@@ -1,8 +1,11 @@
 package com.kd.springcloud.service.impl;
 
 import com.kd.springcloud.entity.Gateway;
+import com.kd.springcloud.entity.Status;
 import com.kd.springcloud.mapper.ExchangeMapper;
 import com.kd.springcloud.params.GatewayParam;
+import com.kd.springcloud.params.GatewayUParam;
+import com.kd.springcloud.params.Host;
 import com.kd.springcloud.result.JsonResult;
 import com.kd.springcloud.result.ResultCode;
 import com.kd.springcloud.result.ResultTool;
@@ -13,17 +16,54 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class ExchangeServiceImpl  {
     @Autowired
     private ExchangeMapper exchangeMapper;
-    public JsonResult updateGateway(String servicename,String cloudservicename){
-        int res=exchangeMapper.updateGateway(servicename);
-        int resCloud=exchangeMapper.updateCloudGateway(cloudservicename);
-        if (res > 0&&resCloud>0) {
-            return ResultTool.success();
+    public JsonResult updateGateway(String serviceid,String cloudserviceid){
+
+        String listHostCloud=exchangeMapper.selectHostCloud(serviceid);
+
+        List<Host> listHost=exchangeMapper.selectHost(cloudserviceid);
+        System.out.println(listHost);
+//        String hnC=listHostCloud+"-"+listHost.get(0).getImage();
+        String hn=listHost.get(0).getHostname();
+        for (int i = 0; i < listHost.size(); i++) {
+            String h=listHostCloud+"-"+listHost.get(i).getImage();
+            int res=exchangeMapper.updateGateway(h);
+        }
+        for (int i = 0; i < listHost.size(); i++) {
+            String hCloud=listHost.get(i).getHostname()+"-"+listHost.get(i).getImage();
+            int res=exchangeMapper.updateCloudGateway(hCloud);
+        }
+//        List<Host> listHostCloud=exchangeMapper.selectHostCloud(cloudserviceid);
+//        String hnC=listHostCloud.get(0).getHostname()+"-"+listHostCloud.get(0).getImage();
+//        for (int i = 0; i < listHostCloud.size(); i++) {
+//            String hCloud=listHostCloud.get(i).getHostname()+"-"+listHostCloud.get(i).getImage();
+//            int resCloud=exchangeMapper.updateCloudGateway(hCloud);
+//        }
+
+
+
+//        int res=exchangeMapper.updateGateway(servicename);
+////        int resCloud=exchangeMapper.updateCloudGateway(cloudservicename);
+//        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+////        System.out.println(formatter.format(date));
+////        System.out.println(date);
+//        String str=formatter.format(date);
+////        System.out.println(str);
+
+//        LocalDateTime time =LocalDateTime.now();
+        int status=exchangeMapper.insertStatus(listHostCloud,hn,date);
+        List<Status> data= exchangeMapper.getStatusList();
+        if (status>0&&data!=null) {
+            return ResultTool.success(data);
         } else {
             return ResultTool.fail();
         }
@@ -42,21 +82,37 @@ public class ExchangeServiceImpl  {
         Gateway gateway = new Gateway();
         Integer selectCount = exchangeMapper.selectCount(new LambdaQueryWrapper<Gateway>()
                 .eq(Gateway::getId, gatewayParam.getId()));
-        Integer selectCountS = exchangeMapper.selectCount(new LambdaQueryWrapper<Gateway>()
-                .eq(Gateway::getServiceId, gatewayParam.getServiceId()));
-        if (selectCount > 0||selectCountS>0) {
+//        Integer selectCountS = exchangeMapper.selectCount(new LambdaQueryWrapper<Gateway>()
+//                .eq(Gateway::getServiceId, gatewayParam.getServiceId()));
+        if (selectCount > 0) {
             return ResultTool.fail(ResultCode.SERVICE_CONSIST);
         }
         BeanUtils.copyProperties(gatewayParam, gateway);
-        gateway.setRetryable(false);
-        gateway.setStripPrefix(true);
+//        gateway.setRetryable(false);
+//        gateway.setStripPrefix(true);
+
+        gateway.setEnabled(true);
+        String serviceName=gateway.getId();
+        String[] offerCodeString = serviceName.split("-");
+//        System.out.println(offerCodeString[0]+"-"+offerCodeString[1]+"-"+offerCodeString[2]);
+//        String serviceFirstName=serviceName.replace("-"+offerCodeString[offerCodeString.length-1], "");
+        Gateway gateway1 = new Gateway();
+        gateway1.setId("center-node-"+offerCodeString[offerCodeString.length-1]);
+        gateway1.setPath(gateway.getPath());
+        String url=gateway.getUrl();
+        String[] offerCodeStringUrl = url.split(":");
+        String ip=exchangeMapper.selectIp();
+        gateway1.setUrl("http://"+ip+":"+offerCodeStringUrl[offerCodeStringUrl.length-1]);
+        gateway1.setEnabled(false);
         int res=exchangeMapper.insert(gateway);
-        if(res>0){
+        int res1=exchangeMapper.insert(gateway1);
+        if(res>0&&res1>0){
             return ResultTool.success(gateway);
         }
         else {
             return ResultTool.fail();
         }
+
     }
 
     public JsonResult deleteGatewayById(String id) {
@@ -75,6 +131,33 @@ public class ExchangeServiceImpl  {
             return ResultTool.success(gateway);
         }
         else {
+            return ResultTool.fail();
+        }
+    }
+
+    public JsonResult<Gateway> updateGate(GatewayUParam gatewayUParam) {
+        Gateway gateway = new Gateway();
+//        Integer selectCountS = exchangeMapper.selectCount(new LambdaQueryWrapper<Gateway>()
+//                .eq(Gateway::getServiceId, gateway.getServiceId()));
+//        if (selectCountS>0) {
+//            return ResultTool.fail(ResultCode.SERVICE_CONSIST);
+//        }
+        BeanUtils.copyProperties(gatewayUParam, gateway);
+
+        int res=exchangeMapper.updateById(gateway);
+        if(res>0){
+            return ResultTool.success(gateway);
+        }
+        else {
+            return ResultTool.fail();
+        }
+    }
+
+    public JsonResult getUpdateInfo() {
+        List<Status> data= exchangeMapper.getStatusList();
+        if (data!=null) {
+            return ResultTool.success(data);
+        } else {
             return ResultTool.fail();
         }
     }
