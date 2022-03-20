@@ -2,9 +2,24 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
+      <option name="id" value="langting-rep" />
+      <option name="name" value="langting-rep" />
+      <option name="url" value="http://192.168.1.64:8082/repository/langting-local/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Snapshot" />
+      <option name="name" value="Snapshot Repositories" />
+      <option name="url" value="http://192.168.1.64:8081/repository/assien-snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="http://maven.aliyun.com/nexus/content/repositories/central/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
@@ -20,6 +35,21 @@
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="assien-releases" />
+      <option name="name" value="assien-releases" />
+      <option name="url" value="http://192.168.1.64:8081/repository/assien-releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Public" />
+      <option name="name" value="Public Repository" />
+      <option name="url" value="http://192.168.1.64:8081/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Central" />
+      <option name="name" value="Central Repositories" />
+      <option name="url" value="http://192.168.1.64:8081/repository/maven-central/" />
     </remote-repository>
   </component>
 </project>
