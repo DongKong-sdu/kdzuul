@@ -26,47 +26,30 @@ public class ExchangeServiceImpl  {
     @Autowired
     private ExchangeMapper exchangeMapper;
     public JsonResult updateGateway(String serviceid,String cloudserviceid){
-
+        //获取待转发主机名
         String listHostCloud=exchangeMapper.selectHostCloud(serviceid);
-
+        //获取云端主机名和服务名
         List<Host> listHost=exchangeMapper.selectHost(cloudserviceid);
-        System.out.println(listHost);
-//        String hnC=listHostCloud+"-"+listHost.get(0).getImage();
+        //云端主机名暂存
         String hn=listHost.get(0).getHostname();
+        //代转发主机的服务状态改为不可用（0）
         for (int i = 0; i < listHost.size(); i++) {
             String h=listHostCloud+"-"+listHost.get(i).getImage();
             int res=exchangeMapper.updateGateway(h);
         }
+        //云端主机的服务状态改为在用（1）
         for (int i = 0; i < listHost.size(); i++) {
             String hCloud=listHost.get(i).getHostname()+"-"+listHost.get(i).getImage();
             int res=exchangeMapper.updateCloudGateway(hCloud);
         }
-//        List<Host> listHostCloud=exchangeMapper.selectHostCloud(cloudserviceid);
-//        String hnC=listHostCloud.get(0).getHostname()+"-"+listHostCloud.get(0).getImage();
-//        for (int i = 0; i < listHostCloud.size(); i++) {
-//            String hCloud=listHostCloud.get(i).getHostname()+"-"+listHostCloud.get(i).getImage();
-//            int resCloud=exchangeMapper.updateCloudGateway(hCloud);
-//        }
-
-
-
-//        int res=exchangeMapper.updateGateway(servicename);
-////        int resCloud=exchangeMapper.updateCloudGateway(cloudservicename);
-//        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //对转发做备份，以便追溯
         Date date = new Date(System.currentTimeMillis());
-////        System.out.println(formatter.format(date));
-////        System.out.println(date);
-//        String str=formatter.format(date);
-////        System.out.println(str);
-
-//        LocalDateTime time =LocalDateTime.now();
         int status=exchangeMapper.insertStatus(listHostCloud,hn,date);
-        List<Status> data= exchangeMapper.getStatusList();
-        if (status>0&&data!=null) {
-            return ResultTool.success(data);
-        } else {
-            return ResultTool.fail();
+        //结果处理
+        if (status>0) {
+            return ResultTool.success();
         }
+        return ResultTool.fail();
     }
     public JsonResult getList(){
         List<Gateway> data= exchangeMapper.getList();
