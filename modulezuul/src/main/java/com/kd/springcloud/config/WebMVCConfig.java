@@ -18,7 +18,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         // 跨域配置
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "http://101.201.143.127/","http://localhost:3001","http://124.222.224.173/")
+                .allowedOrigins("http://localhost:3000", "http://124.222.60.243/","http://localhost:3001","http://124.222.224.173/","http://124.222.66.170/","http://139.224.190.128/")
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 

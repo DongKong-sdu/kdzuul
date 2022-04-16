@@ -4,15 +4,38 @@
     <update id="updateGateway">
           update gateway_api_define set
             enabled = 0
-          where service_id = #{servicename}
+          where id = #{servicename}
     </update>
     <update id="updateCloudGateway">
           update gateway_api_define set
             enabled = 1
-          where service_id = #{cloudservicename}
+          where id = #{cloudservicename}
     </update>
     <select id="getList" resultType="com.kd.springcloud.entity.Gateway">
         select *
         from gateway_api_define
+    </select>
+    <insert id="insertStatus" parameterType="com.kd.springcloud.entity.Status">
+        INSERT INTO gateway_change
+        (fromservice, toservice,insertdate) VALUES (#{servicename,jdbcType=VARCHAR}, #{cloudservicename,jdbcType=VARCHAR}, #{insertdate,jdbcType=TIMESTAMP});
+    </insert>
+    <select id="getStatusList" resultType="com.kd.springcloud.entity.Status">
+        select *
+        from gateway_change
+    </select>
+    <select id="selectIp" resultType="string">
+        select ip
+        from m_node
+        where hostname = "center-node"
+    </select>
+    <select id="selectHost" resultType="com.kd.springcloud.params.Host">
+        select m1.hostname,m2.image
+        from m_node m1,m_container m2
+        where m1.id=m2.node_id and m2.node_id=#{serviceid};
+    </select>
+    <select id="selectHostCloud" resultType="string">
+        select hostname
+        from m_node
+        where id=#{cloudserviceid};
     </select>
 </mapper>

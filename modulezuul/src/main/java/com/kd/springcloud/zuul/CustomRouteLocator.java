@@ -85,7 +85,10 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
             if (StringUtils.isEmpty(result.getPath()) ) {
                 continue;
             }
-            if (StringUtils.isEmpty(result.getServiceId()) && StringUtils.isEmpty(result.getUrl())) {
+//            if (StringUtils.isEmpty(result.getServiceId()) && StringUtils.isEmpty(result.getUrl())) {
+//                continue;
+//            }
+            if ( StringUtils.isEmpty(result.getUrl())) {
                 continue;
             }
             ZuulProperties.ZuulRoute zuulRoute = new ZuulProperties.ZuulRoute();
@@ -115,7 +118,7 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
          * The service ID (if any) to map to this route. You can specify a physical URL or
          * a service, but not both.
          */
-        private String serviceId;
+//        private String serviceId;
 
         /**
          * A full physical URL to map to the route. An alternative is to use a service ID
@@ -126,14 +129,14 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
         /**
          * Flag to determine whether the prefix for this route (the path, minus pattern
          * patcher) should be stripped before forwarding.
-         */
-        private boolean stripPrefix = true;
-
-        /**
-         * Flag to indicate that this route should be retryable (if supported). Generally
-         * retry requires a service ID and ribbon.
-         */
-        private Boolean retryable;
+//         */
+//        private boolean stripPrefix = true;
+//
+//        /**
+//         * Flag to indicate that this route should be retryable (if supported). Generally
+//         * retry requires a service ID and ribbon.
+//         */
+//        private Boolean retryable;
 
         private Boolean enabled;
 
@@ -153,13 +156,13 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
             this.path = path;
         }
 
-        public String getServiceId() {
-            return serviceId;
-        }
-
-        public void setServiceId(String serviceId) {
-            this.serviceId = serviceId;
-        }
+//        public String getServiceId() {
+//            return serviceId;
+//        }
+//
+//        public void setServiceId(String serviceId) {
+//            this.serviceId = serviceId;
+//        }
 
         public String getUrl() {
             return url;
@@ -169,21 +172,21 @@ public class CustomRouteLocator extends SimpleRouteLocator implements Refreshabl
             this.url = url;
         }
 
-        public boolean isStripPrefix() {
-            return stripPrefix;
-        }
-
-        public void setStripPrefix(boolean stripPrefix) {
-            this.stripPrefix = stripPrefix;
-        }
-
-        public Boolean getRetryable() {
-            return retryable;
-        }
-
-        public void setRetryable(Boolean retryable) {
-            this.retryable = retryable;
-        }
+//        public boolean isStripPrefix() {
+//            return stripPrefix;
+//        }
+//
+//        public void setStripPrefix(boolean stripPrefix) {
+//            this.stripPrefix = stripPrefix;
+//        }
+//
+//        public Boolean getRetryable() {
+//            return retryable;
+//        }
+//
+//        public void setRetryable(Boolean retryable) {
+//            this.retryable = retryable;
+//        }
 
         public Boolean getEnabled() {
             return enabled;

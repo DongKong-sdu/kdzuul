@@ -6,6 +6,7 @@ com\kd\springcloud\params\GatewayParam.class
 com\kd\springcloud\entity\Status.class
 com\kd\springcloud\params\Host.class
 com\kd\springcloud\web\ExchangeController.class
+com\kd\springcloud\params\ZuulParam.class
 com\kd\springcloud\params\GatewayUParam.class
 com\kd\springcloud\config\CustomZuulConfig.class
 com\kd\springcloud\service\ExchangeService.class
